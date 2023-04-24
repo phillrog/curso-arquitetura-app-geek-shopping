@@ -1,0 +1,10 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/src/.vs
+/src/services/GeekShopping.ProductAPI/bin/Debug/net6.0
+/src/services/GeekShopping.ProductAPI/obj
+/src/web/GeekShopping.Web/bin/Debug/net6.0
+/src/web/GeekShopping.Web/obj
