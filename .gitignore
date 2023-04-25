@@ -8,3 +8,4 @@
 /src/services/GeekShopping.ProductAPI/obj
 /src/web/GeekShopping.Web/bin/Debug/net6.0
 /src/web/GeekShopping.Web/obj
+/src/services/GeekShopping.IdentityServer/obj
