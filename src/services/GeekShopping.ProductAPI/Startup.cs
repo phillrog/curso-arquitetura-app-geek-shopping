@@ -30,12 +30,9 @@ namespace GeekShopping.ProductAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["MySQlConnection:MySQlConnectionString"];
+            var connection = Configuration["MySQlConnection:Localhost"];
 
-            services.AddDbContext<MySQLContext>(options => options.
-                UseMySql(connection,
-                        new MySqlServerVersion(
-                            new Version(8, 0, 5))));
+            services.AddEntityFrameworkSqlServer().AddDbContext<MySQLContext>(options => options.UseSqlServer(connection));
             
             IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
             services.AddSingleton(mapper);
