@@ -14,11 +14,11 @@ namespace GeekShopping.ProductAPI.Migrations
                 name: "product",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<long>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     category_name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
