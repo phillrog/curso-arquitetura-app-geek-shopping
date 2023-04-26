@@ -20,7 +20,7 @@ namespace GeekShopping.ProductAPI.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasColumnName("id");
 
                     b.Property<string>("CategoryName")
@@ -45,7 +45,7 @@ namespace GeekShopping.ProductAPI.Migrations
                         .HasColumnName("name");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnName("price");
 
                     b.HasKey("Id");
