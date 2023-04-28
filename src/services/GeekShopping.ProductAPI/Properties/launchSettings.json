@@ -1,4 +1,12 @@
 {
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:8478",
+      "sslPort": 57065
+    }
+  },
   "profiles": {
     "GeekShopping.ProductAPI": {
       "commandName": "Project",
