@@ -4,7 +4,7 @@ using GeekShopping.Web.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient<IProductService, ProductService>(
-    c => c.BaseAddress = new Uri(builder.Configuration["ServiveUrls:ProductAPI"])
+    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
 );
 
 // Add services to the container.
