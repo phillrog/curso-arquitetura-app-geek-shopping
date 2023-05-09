@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+    identityserver:
+        image: ${DOCKER_REGISTRY-}geekshoppingidentityserver
+        container_name: geekshopping-identity
+        build:
+            context: ../src
+            dockerfile: services/GeekShopping.IdentityServer/Dockerfile
+
+    web:
+        image: ${DOCKER_REGISTRY-}geekshoppingweb
+        container_name: geekshopping-web
+        build:
+            context: ../src
+            dockerfile: web/GeekShopping.Web/Dockerfile
+
+    productapi:
+        image: ${DOCKER_REGISTRY-}geekshoppingproductapi
+        container_name: geekshopping-product-api
+        build:
+            context: ../src
+            dockerfile: services/GeekShopping.ProductAPI/Dockerfile
+
+    mssql:
+        image: 'mcr.microsoft.com/mssql/server'
+        container_name: banco
+        build: 
+            context: ./execute
+            dockerfile: ./Dockerfile
+     

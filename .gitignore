@@ -10,3 +10,5 @@
 /src/web/GeekShopping.Web/obj
 /src/services/GeekShopping.IdentityServer/obj
 /src/services/GeekShopping.IdentityServer/bin/Debug/net6.0
+/docker/obj/Debug
+/src/obj/Docker

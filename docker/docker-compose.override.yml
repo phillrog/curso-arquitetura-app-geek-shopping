@@ -1,0 +1,79 @@
+version: '3.4'
+
+services:
+  mssql:
+    container_name: banco
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Secret1234     
+    volumes:
+        - mssql_data:/var/opt/mssql
+    ports:
+        - '1435:1433'
+    networks:
+          - local
+    command:
+      - /bin/bash
+      - -c
+      - |
+        /opt/mssql/bin/sqlservr
+        curl -s https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh | bash /dev/stdin localhost:1433
+
+  identityserver:
+    container_name: geekshopping-identity
+    environment:
+      - aspnetcore_environment=development
+      - aspnetcore_urls=https://+:7287;http://+:5097
+    ports:
+      - "5097:5097"
+      - "7287:7287"
+    volumes:
+      - ${appdata}/microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      - ${appdata}/asp.net/https:/root/.aspnet/https:ro
+    networks:
+      - local
+    depends_on:
+      - mssql 
+
+  productapi:
+    container_name: geekshopping-product-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:57065;http://+:5000
+    ports:
+      - "57065:57065"
+      - "5000:5000"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - local 
+    depends_on:
+      - identityserver
+      - mssql
+
+  web:
+    container_name: geekshopping-web
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:57066;http://+:57067
+    ports:
+      - "57067:57067"
+      - "57066:57066"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - local
+    depends_on:
+      - productapi
+      
+        
+volumes:
+  mssql_data:
+    driver: local       
+
+networks:
+    local:
+        driver: bridge           
+      
