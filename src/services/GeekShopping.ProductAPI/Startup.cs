@@ -45,6 +45,14 @@ namespace GeekShopping.ProductAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GeekShopping.ProductAPI", Version = "v1" });
             });
+
+            using (var scope = services.BuildServiceProvider().CreateScope())
+            {
+                var dbContext = scope.ServiceProvider
+                    .GetRequiredService<MySQLContext>();
+
+                dbContext.Database.Migrate();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
