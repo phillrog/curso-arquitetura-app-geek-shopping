@@ -1,4 +1,5 @@
 using GeekShopping.IdentityServer.Configuration;
+using GeekShopping.IdentityServer.Initializer;
 using GeekShopping.IdentityServer.Model;
 using GeekShopping.IdentityServer.Model.Context;
 using Microsoft.AspNetCore.Identity;
@@ -18,7 +19,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<MsSqlIdentityContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddIdentityServer(options =>
+var identityBuilder = builder.Services.AddIdentityServer(options =>
 {
     options.Events.RaiseErrorEvents = true;
     options.Events.RaiseInformationEvents = true;
@@ -26,8 +27,12 @@ builder.Services.AddIdentityServer(options =>
     options.Events.RaiseFailureEvents = true;
 }).AddInMemoryIdentityResources(IdentityConfiguration.IdentityResources)
 .AddInMemoryClients(IdentityConfiguration.Clients)
-.AddAspNetIdentity<ApplicationUser>()
-.AddDeveloperSigningCredential();
+.AddAspNetIdentity<ApplicationUser>();
+
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+
+identityBuilder.AddDeveloperSigningCredential();
+
 
 var app = builder.Build();
 
