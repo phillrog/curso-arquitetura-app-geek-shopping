@@ -59,6 +59,11 @@ using (var scope = app.Services.CreateScope())
         .GetRequiredService<MsSqlIdentityContext>();
 
     dbContext.Database.Migrate();
+
+    var initializer = scope.ServiceProvider
+        .GetRequiredService<IDbInitializer>();
+
+    initializer.Initialize();
 }
 
 app.Run();
