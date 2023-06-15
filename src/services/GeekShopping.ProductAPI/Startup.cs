@@ -44,7 +44,7 @@ namespace GeekShopping.ProductAPI
             services.AddControllers();
 
             services.AddAuthentication("Bearer")
-                .AddJwtBearer(options =>
+                .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = "http://geekshopping-identity:5097";
                     options.TokenValidationParameters = new TokenValidationParameters
