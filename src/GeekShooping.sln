@@ -13,10 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.Web", "web\Gee
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.IdentityServer", "services\GeekShopping.IdentityServer\GeekShopping.IdentityServer.csproj", "{3B671AE4-AF30-4256-AB2E-96335CAC1C2F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{9D4A216A-E68A-4DFF-9398-D899D3661403}"
-EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "..\docker\docker-compose.dcproj", "{11BB0B0A-22A0-4247-AA3C-E061304DF376}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +31,6 @@ Global
 		{3B671AE4-AF30-4256-AB2E-96335CAC1C2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B671AE4-AF30-4256-AB2E-96335CAC1C2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B671AE4-AF30-4256-AB2E-96335CAC1C2F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{11BB0B0A-22A0-4247-AA3C-E061304DF376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{11BB0B0A-22A0-4247-AA3C-E061304DF376}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{11BB0B0A-22A0-4247-AA3C-E061304DF376}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{11BB0B0A-22A0-4247-AA3C-E061304DF376}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,7 +39,6 @@ Global
 		{E820BEDB-4C6C-466E-8A42-5E4FE84FF7EA} = {BE8F341D-1378-4B40-88F9-6901B74F17C3}
 		{CD9F96F8-49C8-46FF-A8CC-2756ED320C6A} = {5D7D01B6-30E0-4552-BE0E-6EE1577B5FA7}
 		{3B671AE4-AF30-4256-AB2E-96335CAC1C2F} = {BE8F341D-1378-4B40-88F9-6901B74F17C3}
-		{11BB0B0A-22A0-4247-AA3C-E061304DF376} = {9D4A216A-E68A-4DFF-9398-D899D3661403}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44782F14-DB85-4BF3-BFEA-254F451A02FA}

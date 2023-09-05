@@ -4,6 +4,7 @@ using GeekShopping.IdentityServer.Initializer;
 using GeekShopping.IdentityServer.Model;
 using GeekShopping.IdentityServer.Model.Context;
 using GeekShopping.IdentityServer.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,7 +21,6 @@ builder.Services.AddEntityFrameworkSqlServer().AddDbContext<MsSqlIdentityContext
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<MsSqlIdentityContext>()
     .AddDefaultTokenProviders();
-
 
 var identityBuilder = builder.Services.AddIdentityServer(options =>
 {

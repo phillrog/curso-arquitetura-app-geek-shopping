@@ -21,11 +21,3 @@ services:
         build:
             context: ../src
             dockerfile: services/GeekShopping.ProductAPI/Dockerfile
-
-    mssql:
-        image: 'mcr.microsoft.com/mssql/server'
-        container_name: banco
-        build: 
-            context: ./execute
-            dockerfile: ./Dockerfile
-     

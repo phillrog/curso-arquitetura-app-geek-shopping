@@ -1,6 +1,8 @@
 using GeekShopping.Web.Services.IServices;
 using GeekShopping.Web.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Logging;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,9 +19,9 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = "oidc";
 })
     .AddCookie("Cookies", c => c.ExpireTimeSpan = TimeSpan.FromMinutes(10))
-    .AddOpenIdConnect("oidc", options => 
+    .AddOpenIdConnect("oidc", options =>
     {
-        options.Authority = builder.Configuration["ServiceUrls:IndetityServer"];
+        options.Authority = builder.Configuration["ServiceUrls:IdentityServer"];
         options.GetClaimsFromUserInfoEndpoint = true;
         options.ClientId = "geek_shopping";
         options.ClientSecret = "my_super_secret";
@@ -30,6 +32,11 @@ builder.Services.AddAuthentication(options =>
         options.TokenValidationParameters.RoleClaimType = "role";
         options.Scope.Add("geek_shopping");
         options.SaveTokens = true;
+        
+        options.BackchannelHttpHandler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+        };
     });
 
 var app = builder.Build();
@@ -40,6 +47,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHttpsRedirection();
 }
+IdentityModelEventSource.ShowPII = true;
 
 app.UseStaticFiles();
 
