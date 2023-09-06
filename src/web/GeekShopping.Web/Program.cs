@@ -32,7 +32,7 @@ builder.Services.AddAuthentication(options =>
         options.TokenValidationParameters.RoleClaimType = "role";
         options.Scope.Add("geek_shopping");
         options.SaveTokens = true;
-        
+
         options.BackchannelHttpHandler = new HttpClientHandler
         {
             ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true

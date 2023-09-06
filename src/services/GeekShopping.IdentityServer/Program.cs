@@ -29,6 +29,7 @@ var identityBuilder = builder.Services.AddIdentityServer(options =>
     options.Events.RaiseSuccessEvents = true;
     options.Events.RaiseFailureEvents = true;
 }).AddInMemoryIdentityResources(IdentityConfiguration.IdentityResources)
+.AddInMemoryApiScopes(IdentityConfiguration.ApiScopes)
 .AddInMemoryClients(IdentityConfiguration.Clients)
 .AddAspNetIdentity<ApplicationUser>();
 
@@ -69,5 +70,9 @@ using (var scope = app.Services.CreateScope())
 
     initializer.Initialize();
 }
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

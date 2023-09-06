@@ -39,8 +39,7 @@ namespace GeekShopping.IdentityServer.Configuration
                     ClientId = "geek_shopping",
                     ClientSecrets = { new Secret("my_super_secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.Code,
-                    RedirectUris = {"https://localhost:8475/signin-oidc"},
-                    ClientUri = "https://localhost:57066",
+                    RedirectUris = {"http://localhost:8475/signin-oidc", "https://localhost:57066/signin-oidc"},
                     PostLogoutRedirectUris = {"https://localhost:57066/signout-callback-oidc"},
                     AllowedScopes = new List<string>
                     {
