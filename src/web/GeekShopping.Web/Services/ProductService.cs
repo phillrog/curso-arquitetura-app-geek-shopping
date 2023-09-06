@@ -11,7 +11,11 @@ namespace GeekShopping.Web.Services
 
         public ProductService(HttpClient client)
         {
-            _client = client ?? throw new ArgumentNullException(nameof(client));
+            //var clientHandler = new HttpClientHandler();
+            //clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            //_client = new HttpClient(clientHandler);
+            //_client.BaseAddress = new Uri("https://localhost:5000");
+            _client = client;
         }
 
         public async Task<IEnumerable<ProductModel>> FindAllProducts()

@@ -3,12 +3,15 @@ using GeekShopping.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Logging;
 using System.Net;
+using GeekShopping.Web.DelegatingHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 builder.Services.AddHttpClient<IProductService, ProductService>(
     c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
-);
+).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
