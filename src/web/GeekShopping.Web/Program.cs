@@ -11,7 +11,10 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 builder.Services.AddHttpClient<IProductService, ProductService>(
     c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])
-).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
+{
+    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+}).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -48,13 +51,17 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    app.UseHttpsRedirection();
 }
-IdentityModelEventSource.ShowPII = true;
+app.UseHttpsRedirection();
+
 
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
 app.UseAuthentication();
 app.UseAuthorization();

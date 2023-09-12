@@ -5,6 +5,7 @@ using GeekShopping.ProductAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -17,6 +18,8 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace GeekShopping.ProductAPI
@@ -47,18 +50,62 @@ namespace GeekShopping.ProductAPI
 
             services.AddAuthentication(x =>
             {
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
             }).AddJwtBearer("Bearer", options =>
                 {
                     options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
                     options.Authority = "https://localhost:8475";
+                    options.Audience = "https://localhost:5000";
+
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateAudience = false,
-                        ValidateIssuerSigningKey = false,
+                        ValidateIssuerSigningKey = true,
+
                         ValidateIssuer = false,
+                        ValidateAudience = false,
+
+                        ClockSkew = new System.TimeSpan(0, 0, 30)
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnChallenge = context =>
+                        {
+                            context.HandleResponse();
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            context.Response.ContentType = "application/json";
+
+                            // Ensure we always have an error and error description.
+                            if (string.IsNullOrEmpty(context.Error))
+                                context.Error = "invalid_token";
+                            if (string.IsNullOrEmpty(context.ErrorDescription))
+                                context.ErrorDescription = "This request requires a valid JWT access token to be provided";
+
+                            // Add some extra context for expired tokens.
+                            if (context.AuthenticateFailure != null && context.AuthenticateFailure.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                var authenticationException = context.AuthenticateFailure as SecurityTokenExpiredException;
+                                context.Response.Headers.Add("x-token-expired", authenticationException.Expires.ToString("o"));
+                                context.ErrorDescription = $"The token expired on {authenticationException.Expires.ToString("o")}";
+                            }
+
+                            return context.Response.WriteAsync(JsonSerializer.Serialize(new
+                            {
+                                error = context.Error,
+                                error_description = context.ErrorDescription
+                            }));
+                        },
+                        OnTokenValidated = context =>
+                        {
+                            return Task.CompletedTask;
+                        }
+                    };
+
+                    options.BackchannelHttpHandler = new HttpClientHandler
+                    {
+                        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
                 });
 
@@ -74,7 +121,8 @@ namespace GeekShopping.ProductAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GeekShopping.ProductAPI", Version = "v1" });
                 c.EnableAnnotations();
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme { 
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
                     Description = "Enter 'Bearer' [space] and your token!",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
@@ -82,7 +130,24 @@ namespace GeekShopping.ProductAPI
                     Scheme = "Bearer"
                 });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement());
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+
+                        },
+                        new List<string>()
+                    }
+                });
             });
 
 
@@ -104,10 +169,15 @@ namespace GeekShopping.ProductAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GeekShopping.ProductAPI v1"));
             }
-            else
-                app.UseHttpsRedirection();
+            
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseAuthentication();
 
