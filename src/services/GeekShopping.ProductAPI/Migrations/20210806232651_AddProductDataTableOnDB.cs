@@ -7,36 +7,30 @@ namespace GeekShopping.ProductAPI.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
+            migrationBuilder.AlterDatabase();
 
             migrationBuilder.CreateTable(
-                name: "product",
+                name: "Product",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    name = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    category_name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
+                    category_name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     image_url = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_product", x => x.id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                    table.PrimaryKey("PK_Product", x => x.id);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "product");
+                name: "Product");
         }
     }
 }
