@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GeekShopping.ProductAPI.Model.Context
 {
@@ -119,6 +121,19 @@ namespace GeekShopping.ProductAPI.Model.Context
                 ImageURL = "https://github.com/leandrocgsi/erudio-microservices-dotnet6/blob/main/ShoppingImages/13_dragon_ball.jpg",
                 CategoryName = "T-shirt"
             });
+
+            modelBuilder.Entity<Product>().HasKey(p => p.Id);
+            modelBuilder.Entity<Product>().Property(p => p.Id).ValueGeneratedOnAdd();
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information)
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging();
+        }
+
     }
 }
