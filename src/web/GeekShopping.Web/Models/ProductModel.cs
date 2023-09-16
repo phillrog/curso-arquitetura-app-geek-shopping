@@ -8,5 +8,8 @@
         public string Description { get; set; }
         public string CategoryName { get; set; }
         public string ImageURL { get; set; }
+
+        public string SubstringName() => Name.Length < 24 ? Name : $"{Name.Substring(0, 21)} ...";
+        public string SubstringDescription() => Description.Length < 355 ? Name : $"{Name.Substring(0, 352)} ...";
     }
 }
