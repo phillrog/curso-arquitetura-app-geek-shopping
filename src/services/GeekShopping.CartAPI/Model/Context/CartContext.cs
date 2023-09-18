@@ -1,5 +1,6 @@
 ﻿using GeekShopping.CartAPI.Model;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace GeekShopping.CartAPI.Model.Context
 {
@@ -9,11 +10,14 @@ namespace GeekShopping.CartAPI.Model.Context
         public CartContext(DbContextOptions<CartContext> options) : base(options) {}
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<CartDetail> CartDetails { get; set; }
+        public DbSet<CartHeader> CartHeaders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>().HasKey(p => p.Id);
-            modelBuilder.Entity<Product>().Property(p => p.Id).ValueGeneratedOnAdd();
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes()
+                .SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CartContext).Assembly);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
