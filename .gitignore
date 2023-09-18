@@ -13,3 +13,5 @@
 /docker/obj/Debug
 /src/obj/Docker
 /docker/obj/Docker
+/src/services/GeekShopping.CartAPI/obj
+/src/services/GeekShopping.CartAPI/bin/Debug/net6.0
