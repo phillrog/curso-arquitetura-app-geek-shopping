@@ -1,4 +1,5 @@
 using AutoMapper;
+using GeekShopping.CartAPI.Config;
 using GeekShopping.CartAPI.Model.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +13,9 @@ var connection = builder.Configuration["MySQlConnection:Localhost"];
 
 builder.Services.AddEntityFrameworkSqlServer().AddDbContext<CartContext>(options => options.UseSqlServer(connection));
 
-//IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
-//services.AddSingleton(mapper);
-//services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 builder.Services.AddControllers();
