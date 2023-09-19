@@ -1,6 +1,7 @@
 using AutoMapper;
 using GeekShopping.CartAPI.Config;
 using GeekShopping.CartAPI.Model.Context;
+using GeekShopping.CartAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +17,9 @@ builder.Services.AddEntityFrameworkSqlServer().AddDbContext<CartContext>(options
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 
 builder.Services.AddControllers();
