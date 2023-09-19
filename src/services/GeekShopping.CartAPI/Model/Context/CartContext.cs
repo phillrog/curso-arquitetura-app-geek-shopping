@@ -15,6 +15,8 @@ namespace GeekShopping.CartAPI.Model.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Product>().ToTable(nameof(Product), t => t.ExcludeFromMigrations());
+
             foreach (var relationship in modelBuilder.Model.GetEntityTypes()
                 .SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CartContext).Assembly);
