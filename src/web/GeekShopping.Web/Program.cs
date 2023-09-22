@@ -16,6 +16,13 @@ builder.Services.AddHttpClient<IProductService, ProductService>(
     ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
 }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
+builder.Services.AddHttpClient<ICartService, CartService>(
+    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CartAPI"])
+).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
+{
+    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+}).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
