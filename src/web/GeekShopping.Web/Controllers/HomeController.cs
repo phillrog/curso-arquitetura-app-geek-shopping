@@ -12,11 +12,13 @@ namespace GeekShopping.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
+        private readonly ICartService _cartService;
 
-        public HomeController(ILogger<HomeController> logger, IProductService productService)
+        public HomeController(ILogger<HomeController> logger, IProductService productService, ICartService cartService)
         {
             _logger = logger;
             _productService = productService;
+            _cartService = cartService;
         }
 
         public async Task<IActionResult> Index()
@@ -52,6 +54,38 @@ namespace GeekShopping.Web.Controllers
         public IActionResult Logout()
         {
             return SignOut("Cookies", "oidc");
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ActionName("Details")]
+        public async Task<IActionResult> DetailsPost(ProductViewModel model)
+        {
+            CartViewModel cart = new CartViewModel()
+            {
+                CartHeader = new CartHeaderViewModel()
+                {
+                    UserId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value
+                },
+                CartDetails = new List<CartDetailViewModel>()
+                {
+                    new CartDetailViewModel()
+                    {
+                        Count = model.Count,
+                        ProductId = model.Id,
+                        Product = await _productService.FindProductById(model.Id)
+                    }
+                }
+            };
+
+            var response = await _cartService.AddItemToCart(cart);
+
+            if (response != null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
     }
 }
