@@ -13,7 +13,7 @@ namespace GeekShopping.Web.Models
         [Range(1, 100)]
         public int Count { get; set; }
 
-        public string SubstringName() => Name.Length < 24 ? Name : $"{Name.Substring(0, 21)} ...";
-        public string SubstringDescription() => Description.Length < 355 ? Name : $"{Name.Substring(0, 352)} ...";
+        public string? SubstringName() => Name?.Length < 24 ? Name : $"{Name?.Substring(0, 21)} ...";
+        public string? SubstringDescription() => Description?.Length < 355 ? Name : $"{Description?.Substring(0, 352)} ...";
     }
 }
