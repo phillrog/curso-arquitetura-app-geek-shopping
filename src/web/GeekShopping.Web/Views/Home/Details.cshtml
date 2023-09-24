@@ -23,12 +23,14 @@
                                 <div class="col-12">
                                     <span class="badge badge-primary text-success p-3 border">@Model.CategoryName</span>
                                     <h3 class="text-success"></h3>
-                                    <p class="text-secondary">@Html.Raw(Model.Description)</p>
+                                    <p class="text-secondary" style="text-align: justify;">@Html.Raw(Model.Description)</p>
                                 </div>
                             </div>
-                            <div class="row px-4">
-                                <input asp-for="Count" class="form-control" />
-                                <span asp-validation-for="Count" class="text-danger"></span>
+                            <div class="row pl-4">
+                                <div class="col-12">
+                                    <input asp-for="Count" class="form-control" />
+                                    <span asp-validation-for="Count" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -36,11 +38,11 @@
             </div>
             <div class="card-footer row">
                 <div class="col-12 col-md-6 pb-1">
-                    <a class="btn-success btn btn-square btn-lg form-control" style="height: 5px;">Back to List</a>
+                    <a class="btn-success btn btn-square btn-lg form-control" style="height: 50px;">Back to List</a>
                 </div>
 
                 <div class="col-12 col-md-6">
-                    <button type="submit" value="Create" class="btn-lg btn-primary form-control" style="height: 5px;">Add to Cart</button>
+                    <button type="submit" value="Create" class="btn-lg btn-primary form-control" style="height: 50px;">Add to Cart</button>
                 </div>
             </div>
         </div>
