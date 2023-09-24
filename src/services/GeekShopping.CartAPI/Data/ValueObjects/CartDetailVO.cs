@@ -6,7 +6,6 @@
         public int CartHeaderId { get; set; }
         public int ProductId { get; set; }
         public int Count { get; set; }
-        public CartHeaderVO CartHeader { get; set; }
         public ProductVO Product { get; set; }
     }
 }
