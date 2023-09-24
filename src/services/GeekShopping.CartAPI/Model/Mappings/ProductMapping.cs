@@ -14,8 +14,8 @@ namespace GeekShopping.CartAPI.Model.Mappings
             builder.Property(p => p.Name).HasMaxLength(150).IsRequired();
             builder.Property(p => p.Price).HasPrecision(18,2).IsRequired();
             builder.Property(p => p.Description).HasMaxLength(500);
-            builder.Property(p => p.CategoryName).HasMaxLength(50);
-            builder.Property(p => p.ImageURL).HasMaxLength(300);            
+            builder.Property(p => p.CategoryName).HasColumnName("category_name").HasMaxLength(50);
+            builder.Property(p => p.ImageURL).HasColumnName("image_url").HasMaxLength(300);            
         }
     }
 }

@@ -11,8 +11,8 @@ namespace GeekShopping.CartAPI.Model.Mappings
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.Property(x => x.UserId);
-            builder.Property(x => x.CouponCode);
+            builder.Property(x => x.UserId).HasMaxLength(150);
+            builder.Property(x => x.CouponCode).HasMaxLength(500).HasDefaultValue(null);
         }
     }
 }
