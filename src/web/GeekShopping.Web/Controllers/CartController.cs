@@ -1,4 +1,5 @@
-﻿using GeekShopping.Web.Services.IServices;
+﻿using GeekShopping.Web.Models;
+using GeekShopping.Web.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeekShopping.Web.Controllers
@@ -17,7 +18,24 @@ namespace GeekShopping.Web.Controllers
         }
         public async Task<IActionResult> CartIndex()
         {
-            return View();
+            return View(await FindCartByUserId());
+        }
+
+        private async Task<CartViewModel> FindCartByUserId()
+        {
+            var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
+
+            var response = await _cartService.FindCartByUserId(userId);
+
+            if (response?.CartHeader != null)
+            {
+                foreach (var detail in response.CartDetails)
+                {
+                    response.CartHeader.PurchaseAmount += detail.Ammount();
+                }
+            }
+
+            return response;
         }
     }
 }
