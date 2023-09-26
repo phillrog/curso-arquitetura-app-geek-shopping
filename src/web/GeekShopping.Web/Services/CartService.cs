@@ -37,7 +37,7 @@ namespace GeekShopping.Web.Services
             throw new NotImplementedException();
         }
 
-        public async Task<CartViewModel> FindCartByUserId(int userId)
+        public async Task<CartViewModel> FindCartByUserId(string userId)
         {
             var response = await _client.GetAsync($"{BasePath}/find-cart/{userId}");
             return await response.ReadContentAs<CartViewModel>();
