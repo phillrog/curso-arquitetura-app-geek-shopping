@@ -7,5 +7,10 @@
         public int ProductId { get; set; }
         public int Count { get; set; }
         public ProductViewModel Product { get; set; }
+
+        public decimal Ammount()
+        {
+            return (Product.Price * Count);
+        }
     }
 }
