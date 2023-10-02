@@ -1,6 +1,7 @@
 using AutoMapper;
 using GeekShopping.CouponAPI.Config;
 using GeekShopping.CouponAPI.Model.Context;
+using GeekShopping.CouponAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,8 +21,7 @@ IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-
-//builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddAuthentication(x =>
