@@ -23,6 +23,13 @@ builder.Services.AddHttpClient<ICartService, CartService>(
     ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
 }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
+builder.Services.AddHttpClient<ICouponService, CouponService>(
+    c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"])
+).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
+{
+    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+}).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
