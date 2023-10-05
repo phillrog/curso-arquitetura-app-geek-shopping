@@ -16,7 +16,7 @@ namespace GeekShopping.Web.Services
         }
         public async Task<CouponViewModel> GetCoupon(string code)
         {
-            var response = await _client.GetAsync($"{BasePath}/api/{code}");
+            var response = await _client.GetAsync($"{BasePath}/{code}");
 
             if (response.StatusCode != HttpStatusCode.OK) return new CouponViewModel();
 

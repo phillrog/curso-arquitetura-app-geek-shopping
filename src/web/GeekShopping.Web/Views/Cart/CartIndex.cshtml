@@ -6,6 +6,7 @@
         <br />
         <input asp-for="CartHeader.UserId" hidden />
         <input asp-for="CartHeader.Id" hidden />
+
         <div>
             <div class="card border mt-4 container">
                 <div class="card-header bg-dark text-light ml-0 row">
@@ -93,6 +94,13 @@
                                 Purchase Amount: @string.Format("{0:c}", Model.CartHeader.PurchaseAmount)
                                 <br />
                             </span>
+                            @if (Model.CartHeader.DiscountAmount > 0)
+                            {
+                                <span class="text-success" style="font-size:14px;">
+                                    Discount Amount: @string.Format("{0:c}", Model.CartHeader.DiscountAmount)
+                                    <br />
+                                </span>
+                            }
                         </div>
                     </div>
                 </div>

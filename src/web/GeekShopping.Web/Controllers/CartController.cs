@@ -11,12 +11,15 @@ namespace GeekShopping.Web.Controllers
         private readonly ILogger<CartController> _logger;
         private readonly IProductService _productService;
         private readonly ICartService _cartService;
+        private readonly ICouponService _couponService;
 
-        public CartController(ILogger<CartController> logger, IProductService productService, ICartService cartService)
+        public CartController(ILogger<CartController> logger, IProductService productService, ICartService cartService,
+            ICouponService couponService)
         {
             _logger = logger;
             _productService = productService;
             _cartService = cartService;
+            _couponService = couponService;
         }
 
         [Authorize]
@@ -39,7 +42,7 @@ namespace GeekShopping.Web.Controllers
             return View();
         }
 
-        [HttpPost()]
+        [HttpPost]
         [ActionName("ApplyCoupon")]
         public async Task<IActionResult> ApplyCoupon(CartViewModel model)
         {
@@ -53,7 +56,7 @@ namespace GeekShopping.Web.Controllers
             return View();
         }
 
-        [HttpPost()]
+        [HttpPost]
         [ActionName("RemoveCoupon")]
         public async Task<IActionResult> RemoveCoupon()
         {
@@ -74,15 +77,25 @@ namespace GeekShopping.Web.Controllers
 
             var response = await _cartService.FindCartByUserId(userId);
 
-            if (response?.CartHeader != null)
-            {
-                foreach (var detail in response.CartDetails)
-                {
-                    response.CartHeader.PurchaseAmount += detail.Ammount();
-                }
-            }
+            if (response == null) return response;
+
+            await CalcDiscount(response.CartHeader);
+            response.CalcPurchaseAmount();            
 
             return response;
+        }
+
+        private async Task CalcDiscount(CartHeaderViewModel cartHeader)
+        {
+            if (cartHeader != null && cartHeader.HasCoupon())
+            {
+                var coupon = await _couponService.GetCoupon(cartHeader.CouponCode);
+
+                if (coupon?.CouponCode != null)
+                {
+                    cartHeader.SetDiscountTotal(coupon.DiscountAmount);
+                }
+            }
         }
     }
 }
