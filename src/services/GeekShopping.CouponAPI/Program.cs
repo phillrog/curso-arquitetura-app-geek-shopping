@@ -34,7 +34,7 @@ builder.Services.AddAuthentication(x =>
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
     options.Authority = "https://localhost:8475";
-    options.Audience = "https://localhost:5000";
+    options.Audience = "https://localhost:4450";
 
     options.TokenValidationParameters = new TokenValidationParameters
     {
