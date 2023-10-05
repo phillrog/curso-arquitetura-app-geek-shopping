@@ -15,7 +15,34 @@
             <div class="container row">
                 <div class="col-7">
                     <div class="row">
-                       
+                        <div class="col-12">
+                            <label class="col-form-label">First Name:</label>
+                            <input asp-for="CartHeader.FirstName" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label class="col-form-label">Last Name:</label>
+                            <input asp-for="CartHeader.LastName" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label class="col-form-label">E-mail:</label>
+                            <input asp-for="CartHeader.Email" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label class="col-form-label">Phone Number:</label>
+                            <input asp-for="CartHeader.Phone" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label class="col-form-label">Card Number:</label>
+                            <input asp-for="CartHeader.CardNumber" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label class="col-form-label">CVV:</label>
+                            <input asp-for="CartHeader.CVV" class="form-control" />
+                        </div>
+                        <div class="col-12 pb-4">
+                            <label class="col-form-label">Expiry:</label>
+                            <input asp-for="CartHeader.ExpireMonthYear" placeholder="MMYY" class="form-control" />
+                        </div>
                     </div>
                 </div>
                 <div class="col-5">
