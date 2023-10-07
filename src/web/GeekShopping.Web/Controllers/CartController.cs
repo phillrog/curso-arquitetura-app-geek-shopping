@@ -77,6 +77,26 @@ namespace GeekShopping.Web.Controllers
             return View(await FindCartByUserId());
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Checkout(CartHeaderViewModel model)
+        {
+            var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
+            var response = await _cartService.Checkout(model);
+
+            if (response == null)
+            {
+                return RedirectToAction("Confirmation");
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Confirmation()
+        {
+            return View();
+        }
+
         private async Task<CartViewModel> FindCartByUserId()
         {
             var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
