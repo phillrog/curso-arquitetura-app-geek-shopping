@@ -78,17 +78,17 @@ namespace GeekShopping.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Checkout(CartHeaderViewModel model)
+        public async Task<IActionResult> Checkout(CartViewModel model)
         {
             var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
-            var response = await _cartService.Checkout(model);
+            var response = await _cartService.Checkout(model.CartHeader);
 
-            if (response == null)
+            if (response != null)
             {
-                return RedirectToAction("Confirmation");
+                return RedirectToAction(nameof(Confirmation));
             }
 
-            return View();
+            return View(model);
         }
 
         [HttpGet]
