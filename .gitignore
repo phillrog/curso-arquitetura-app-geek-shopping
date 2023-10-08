@@ -17,3 +17,4 @@
 /src/services/GeekShopping.CartAPI/bin/Debug/net6.0
 /src/services/GeekShopping.CouponAPI/obj
 /src/services/GeekShopping.CouponAPI/bin/Debug/net6.0
+/src/integration/GeekShopping.MessageBus/obj
