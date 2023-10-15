@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connection = builder.Configuration["Connection:Localhost"];
 
-//builder.Services.AddEntityFrameworkSqlServer().AddDbContext<OrderContext>(options => options.UseSqlServer(connection));
+builder.Services.AddEntityFrameworkSqlServer().AddDbContext<OrderContext>(options => options.UseSqlServer(connection));
 
 builder.Services.AddControllers();
 
