@@ -19,3 +19,4 @@
 /src/services/GeekShopping.CouponAPI/bin/Debug/net6.0
 /src/integration/GeekShopping.MessageBus/obj
 /src/services/GeekShopping.OrderAPI/obj
+/src/services/GeekShopping.OrderAPI/bin/Debug/net6.0

@@ -119,7 +119,7 @@ builder.Services.AddSwaggerGen(c =>
 using (var scope = builder.Services.BuildServiceProvider().CreateScope())
 {
     var dbContext = scope.ServiceProvider
-        .GetRequiredService<CartContext>();
+        .GetRequiredService<OrderContext>();
 
     dbContext.Database.Migrate();
 }
