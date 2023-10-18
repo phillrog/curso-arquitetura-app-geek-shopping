@@ -1,4 +1,5 @@
 using GeekShopping.OrderAPI.Model.Context;
+using GeekShopping.OrderAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 var connection = builder.Configuration["Connection:Localhost"];
 
 builder.Services.AddEntityFrameworkSqlServer().AddDbContext<OrderContext>(options => options.UseSqlServer(connection));
+
+var ctx = new DbContextOptionsBuilder<OrderContext>();
+ctx.UseSqlServer<OrderContext>(connection);
+
+builder.Services.AddSingleton( new OrderRepository(ctx.Options));
 
 builder.Services.AddControllers();
 
