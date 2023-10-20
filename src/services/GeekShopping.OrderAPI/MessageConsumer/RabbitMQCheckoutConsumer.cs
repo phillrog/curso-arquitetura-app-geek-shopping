@@ -30,10 +30,22 @@ namespace GeekShopping.OrderAPI.MessageConsumer
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            
+            stoppingToken.ThrowIfCancellationRequested();
+            var consumer = new EventingBasicConsumer(_channel);
+            consumer.Received += (chanel, evt) =>
+            {
+                var content = Encoding.UTF8.GetString(evt.Body.ToArray());
+                CheckoutHeaderVO vo = JsonSerializer.Deserialize<CheckoutHeaderVO>(content);
+                ProcessOrder(vo).GetAwaiter().GetResult();
+                _channel.BasicAck(evt.DeliveryTag, false);
+            };
+            _channel.BasicConsume("checkoutqueue", false, consumer);
             return Task.CompletedTask;
         }
 
-        
+        private async Task ProcessOrder(CheckoutHeaderVO vo)
+        {
+            
+        }
     }
 }
