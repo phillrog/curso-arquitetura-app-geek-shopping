@@ -17,7 +17,7 @@
         public string ExpireMonthYear { get; set; }
         public int CartTotalItens { get; set; }
         public DateTime OrderTime { get; set; }
-        public IEnumerable<OrderDetail>? OrderDetails { get; set; }
+        public IList<OrderDetail>? OrderDetails { get; set; }
         public bool PaymentStatus { get; set; }
     }
 }
