@@ -1,18 +1,25 @@
-﻿using AutoMapper;
-using GeekShopping.CartAPI.Data.ValueObjects;
-using GeekShopping.CartAPI.Model.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using GeekShopping.CartAPI.Data.ValueObjects;
+using System.Net;
+using System.Text.Json;
 
 namespace GeekShopping.CartAPI.Repository
 {
     public class CouponRepository : ICouponRepository
     {
-        private readonly CartContext _context;
-       
-        public async Task<CouponVO> GetCouponByCouponCode(string couponCode)
+        private readonly HttpClient _client;
+        public const string BasePath = "api/v1/coupon";
+
+        public CouponRepository(HttpClient client)
         {
-            var coupon = await _context.Coupon.FirstOrDefaultAsync(a => a.CouponCode == couponCode);
-            return _mapper.Map<CouponVO>(coupon);
+            _client = client;
+        }
+        public async Task<CouponVO> GetCouponByCouponCode(string code)
+        {
+            var response = await _client.GetAsync($"{BasePath}/{code}");
+            if (response.StatusCode != HttpStatusCode.OK) return new CouponVO();
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<CouponVO>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }
