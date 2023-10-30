@@ -20,3 +20,4 @@
 /src/integration/GeekShopping.MessageBus/obj
 /src/services/GeekShopping.OrderAPI/obj
 /src/services/GeekShopping.OrderAPI/bin/Debug/net6.0
+/src/integration/GeekShopping.MessageBus/bin/Debug/net6.0
