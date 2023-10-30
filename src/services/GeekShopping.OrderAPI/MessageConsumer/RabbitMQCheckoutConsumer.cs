@@ -21,8 +21,8 @@ namespace GeekShopping.OrderAPI.MessageConsumer
             var factory = new ConnectionFactory
             {
                 HostName = "localhost",
-                UserName = "guest",
-                Password = "guest"
+                UserName = "admin",
+                Password = "passw123"
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
@@ -57,7 +57,7 @@ namespace GeekShopping.OrderAPI.MessageConsumer
                 CVV = vo.CVV,
                 DiscountAmount = vo.DiscountAmount,
                 Email = vo.Email,
-                ExpireMonthYear = vo.ExpiryMothYear,
+                ExpireMonthYear = vo.ExpireMonthYear,
                 OrderTime = DateTime.Now,
                 PurchaseAmount = vo.PurchaseAmount,
                 PaymentStatus = false,
