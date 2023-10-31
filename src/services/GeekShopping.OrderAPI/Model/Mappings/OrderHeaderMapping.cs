@@ -8,7 +8,7 @@ namespace GeekShopping.CartAPI.Model.Mappings
     {
         public void Configure(EntityTypeBuilder<OrderHeader> builder)
         {
-            builder.ToTable("cart_header");
+            builder.ToTable("order_header");
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
