@@ -1,5 +1,4 @@
-﻿using GeekShopping.CartAPI.Data.ValueObjects;
-using GeekShopping.OrderAPI.Model;
+﻿using GeekShopping.OrderAPI.Model;
 
 namespace GeekShopping.OrderAPI.Repository
 {
