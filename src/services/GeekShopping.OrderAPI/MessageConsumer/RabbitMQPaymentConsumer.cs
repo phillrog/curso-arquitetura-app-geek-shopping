@@ -43,7 +43,7 @@ namespace GeekShopping.PaymentAPI.MessageConsumer
                 UpdatePaymentStatus(vo).GetAwaiter().GetResult();
                 _channel.BasicAck(evt.DeliveryTag, false);
             };
-            _channel.BasicConsume("orderpaymentresultqueue", false, consumer);
+            _channel.BasicConsume(_queueName, false, consumer);
             return Task.CompletedTask;
         }
 
