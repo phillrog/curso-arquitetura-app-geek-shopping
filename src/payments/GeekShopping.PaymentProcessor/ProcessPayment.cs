@@ -4,7 +4,7 @@
     {
         public bool PaymentProcessor()
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }
