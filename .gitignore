@@ -30,3 +30,4 @@
 /src/services/GeekShopping.Email/obj
 /src/services/GeekShopping.Email/bin/Debug/net6.0
 /src/gateway/GeekShopping.Gateway/obj
+/src/gateway/GeekShopping.Gateway/bin/Debug/net6.0
