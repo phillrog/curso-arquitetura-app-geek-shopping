@@ -1,4 +1,5 @@
-﻿using GeekShopping.Email.Repository;
+﻿using GeekShopping.Email.Messages;
+using GeekShopping.Email.Repository;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -38,19 +39,19 @@ namespace GeekShopping.Email.MessageConsumer
             consumer.Received += (chanel, evt) =>
             {
                 var content = Encoding.UTF8.GetString(evt.Body.ToArray());
-                UpdatePaymentResultVO vo = JsonSerializer.Deserialize<UpdatePaymentResultVO>(content);
-                UpdatePaymentStatus(vo).GetAwaiter().GetResult();
+                UpdatePaymentResultMessage message = JsonSerializer.Deserialize<UpdatePaymentResultMessage>(content);
+                ProcessLogs(message).GetAwaiter().GetResult();
                 _channel.BasicAck(evt.DeliveryTag, false);
             };
             _channel.BasicConsume(_queueName, false, consumer);
             return Task.CompletedTask;
         }
 
-        private async Task UpdatePaymentStatus(UpdatePaymentResultVO vo)
+        private async Task ProcessLogs(UpdatePaymentResultMessage message)
         {          
             try
             {
-                await _repository.UpdateOrderPaymentStatus(vo.OrderId, vo.Status);
+                await _repository.LogEmail(message);
             }
             catch (Exception)
             {
