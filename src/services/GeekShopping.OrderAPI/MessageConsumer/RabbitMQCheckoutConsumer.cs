@@ -1,5 +1,6 @@
 ﻿using GeekShopping.OrderAPI.Messages;
 using GeekShopping.OrderAPI.Model;
+using GeekShopping.OrderAPI.RabbitMQSender;
 using GeekShopping.OrderAPI.Repository;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -12,10 +13,12 @@ namespace GeekShopping.OrderAPI.MessageConsumer
     public class RabbitMQCheckoutConsumer : BackgroundService
     {
         private readonly OrderRepository _repository;
-        private IConnection _connection;
-        private IModel _channel;
+        private readonly IConnection _connection;
+        private readonly IModel _channel;
+        private readonly IRabbitMQMessageSender _rabbitMQMessageSender;
 
-        public RabbitMQCheckoutConsumer(OrderRepository repository)
+        public RabbitMQCheckoutConsumer(OrderRepository repository, 
+            IRabbitMQMessageSender rabbitMQMessageSender)
         {
             _repository = repository;
             var factory = new ConnectionFactory
@@ -26,7 +29,8 @@ namespace GeekShopping.OrderAPI.MessageConsumer
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
-            _channel.QueueDeclare(queue: "checkoutqueue", false, false, false, arguments: null);  
+            _channel.QueueDeclare(queue: "checkoutqueue", false, false, false, arguments: null);
+            _rabbitMQMessageSender = rabbitMQMessageSender;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -79,6 +83,27 @@ namespace GeekShopping.OrderAPI.MessageConsumer
             }
 
             await _repository.AddOrder(order);
+
+            PaymentVO payment = new()
+            {
+                Name = order.FirstName + " " + order.LastName,
+                CardNumber = order.CardNumber,
+                CVV = order.CVV,
+                ExpiryMonthYear = order.ExpireMonthYear,
+                OrderId = order.Id,
+                PurchaseAmount = order.PurchaseAmount,
+                Email = order.Email
+            };
+
+            try
+            {
+                _rabbitMQMessageSender.SendMessage(payment, "orderpaymentprocessqueue");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
