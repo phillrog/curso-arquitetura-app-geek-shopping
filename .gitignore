@@ -22,3 +22,7 @@
 /src/services/GeekShopping.OrderAPI/bin/Debug/net6.0
 /src/integration/GeekShopping.MessageBus/bin/Debug/net6.0
 /src/GeekShopping.PaymentProcessor/obj
+/src/services/GeekShopping.PaymentAPI/bin/Debug/net6.0
+/src/services/GeekShopping.PaymentAPI/obj
+/src/payments/GeekShopping.PaymentProcessor/obj/Debug/net6.0
+/src/payments/GeekShopping.PaymentProcessor/obj
