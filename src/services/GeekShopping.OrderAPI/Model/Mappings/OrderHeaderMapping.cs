@@ -13,7 +13,7 @@ namespace GeekShopping.CartAPI.Model.Mappings
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.UserId).HasColumnName("user_id").HasMaxLength(150);
-            builder.Property(x => x.CouponCode).HasColumnName("coupon_code").HasMaxLength(500).HasDefaultValue(null);
+            builder.Property(x => x.CouponCode).IsRequired(false).HasColumnName("coupon_code").HasMaxLength(500).HasDefaultValue(null);
             builder.Property(x => x.PurchaseAmount).HasColumnName("purchase_amount");
             builder.Property(x => x.DiscountAmount).HasColumnName("discount_amount");
             builder.Property(x => x.FirstName).HasColumnName("FirstName").HasMaxLength(255);

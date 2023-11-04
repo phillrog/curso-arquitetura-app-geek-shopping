@@ -18,7 +18,7 @@ namespace GeekShopping.OrderAPI.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     user_id = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    coupon_code = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    coupon_code = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     purchase_amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     discount_amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
