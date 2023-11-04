@@ -1,21 +1,20 @@
-﻿using GeekShopping.OrderAPI.Messages;
-using GeekShopping.OrderAPI.Repository;
+﻿using GeekShopping.Email.Repository;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
 
-namespace GeekShopping.OrderAPI.MessageConsumer
+namespace GeekShopping.Email.MessageConsumer
 {
     public class RabbitMQPaymentConsumer : BackgroundService
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
-        private readonly OrderRepository _repository;
+        private readonly EmailRepository _repository;
         private const string ExchangeName = "FanoutPaymentUpdateExchange";
         private string _queueName = "";
 
-        public RabbitMQPaymentConsumer(OrderRepository repository)
+        public RabbitMQPaymentConsumer(EmailRepository repository)
         {
             _repository = repository;
 
