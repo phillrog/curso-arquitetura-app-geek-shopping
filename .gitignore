@@ -26,3 +26,4 @@
 /src/services/GeekShopping.PaymentAPI/obj
 /src/payments/GeekShopping.PaymentProcessor/obj/Debug/net6.0
 /src/payments/GeekShopping.PaymentProcessor/obj
+/src/payments/GeekShopping.PaymentProcessor/bin/Debug/net6.0
